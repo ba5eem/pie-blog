@@ -8,9 +8,11 @@
   <h1>Hello {{ title }}</h1>
   {% for obj in queryset %}
 
-  {{obj.title}}<br/>
+  <a href='{{ obj.get_absolute_url }}'>{{obj.title}}</a><br/>
   {{obj.content}}<br/>
   {{obj.timestamp}}<br/>
+  {{obj.updated}}<br/>
+  {{obj.id}}<br/>
 
   {% endfor %}
 </body>

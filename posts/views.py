@@ -2,21 +2,35 @@
 from __future__ import unicode_literals
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
+from .forms import PostForm
 from .models import Post
 
 def post_create(request):
-  context = {
-    'title': "Create"
-  }
-  return render(request, "index.html", context)
+  form = PostForm(request.POST or None)
+  if form.is_valid():
+    instance = form.save(commit=False)
+    instance.save()
 
-def post_detail(request):
   context = {
-    'title': "Detail"
+    'form': form,
   }
-  return render(request, "index.html", context)
+  return render(request, "post_form.html", context)
+
+
+
+def post_detail(request, id=None):
+  instance = get_object_or_404(Post, id=id)
+
+  context = {
+    'title': "Detail",
+    'instance': instance
+  }
+  return render(request, "post_detail.html", context)
+
+
+
 
 def post_list(request):
   queryset = Post.objects.all()
