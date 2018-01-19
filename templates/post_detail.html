@@ -1,23 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Detail</title>
-</head>
+{% extends "base.html" %}
 
 
+{% block head_title %} 
+  {{instance.title }} | {{ block.super}} 
+{% endblock head_title %}
 
 
-<body>
-  {% if messages %}
-  <ul class='messages'>
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-      {{ message }}
-    </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+<style>
+{% block style %}
+
+h1 {
+  color: #777777;
+}
+
+{% endblock style %}
+</style>
+
+{% block content %}
+
+
 
 
   <h1>{{ title }} Page</h1><br/>
@@ -26,5 +27,5 @@
   {{instance.content}}<br/>
   {{instance.timestamp}}<br/>
   {{instance.id}}<br/>
-</body>
-</html>
+
+{% endblock content %}

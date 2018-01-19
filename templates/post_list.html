@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head_title %} 
+  {{instance.title }} | {{ block.super}} 
+{% endblock head_title %}
+
+
+<style>
+{% block style %}
+
+h1 {
+  color: #777777;
+}
+
+{% endblock style %}
+</style>
+
+{% block content %}
+
+
+    <h1>Hello {{ title }}</h1>
+        {% for obj in queryset %}
+
+        <a href='{{ obj.get_absolute_url }}'>{{obj.title}}</a><br/>
+        {{obj.content}}<br/>
+        {{obj.timestamp}}<br/>
+        {{obj.updated}}<br/>
+        {{obj.id}}<br/>
+
+        {% endfor %}
+
+{% endblock content %}

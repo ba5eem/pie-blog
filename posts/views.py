@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import PostForm
 from .models import Post
@@ -45,7 +45,7 @@ def post_list(request):
       'queryset': queryset
     }
   
-  return render(request, "index.html", context)
+  return render(request, "post_list.html", context)
 
 
 
@@ -72,8 +72,8 @@ def post_update(request, id=None):
 # POST DELETE ********************
 
 
-def post_delete(request):
-  context = {
-    'title': "Delete"
-  }
-  return render(request, "index.html", context)
+def post_delete(request, id=None):
+  instance = get_object_or_404(Post, id=id)
+  instance.delete()
+  messages.success(request, "Successfully Deleted")
+  return redirect('posts:list')
