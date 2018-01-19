@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.views.generic import DetailView
 
 from .forms import PostForm
 from .models import Post
@@ -26,6 +26,24 @@ def post_create(request):
   return render(request, "post_form.html", context)
 
 # POST DETAIL ********************
+
+
+# class PostDetailView(DetailView):
+#   template_name = 'post_detail.html' 
+  
+#   def get_object(self, *args, **kwargs):
+#     slug = self.kwargs.get("slug")
+#     instance = get_object_or_404(Post, slug=slug)
+#     if instance.publish > timezone.now().date() or instance.draft:
+#       if not request.user.is_staff or not request.user.is_superuser:
+#         raise Http404
+#     return instance
+  
+#   def get_context_data(self, *args, **kwargs):
+#     context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+#     instance = context['object']
+#     context['share_string'] = quote_plus(instance.content)
+#     return context
 
 def post_detail(request, id=None):
   instance = get_object_or_404(Post, id=id)
