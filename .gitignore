@@ -60,3 +60,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#images
+media_cdn
