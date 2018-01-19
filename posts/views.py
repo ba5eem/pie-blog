@@ -5,16 +5,40 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def post_create(request):
-  return HttpResponse("<h1>Hello CREATE</h1>")
+  context = {
+    'title': "Create"
+  }
+  return render(request, "index.html", context)
 
 def post_detail(request):
-  return HttpResponse("<h1>Hello DETAIL</h1>")
+  context = {
+    'title': "Detail"
+  }
+  return render(request, "index.html", context)
 
 def post_list(request):
-  return HttpResponse("<h1>Hello LIST</h1>")
+  # if request.user.is_authenticated():
+  #   context = {
+  #   'title': "Admin List"
+  #   }
+  # else:
+  #   context = {
+  #     'title': "List"
+  #   }
+  context = {
+      'title': "List"
+    }
+  
+  return render(request, "index.html", context)
 
 def post_update(request):
-  return HttpResponse("<h1>Hello UPDATE</h1>")
+  context = {
+    'title': "Update"
+  }
+  return render(request, "index.html", context)
 
 def post_delete(request):
-  return HttpResponse("<h1>Hello DELETE</h1>")
+  context = {
+    'title': "Delete"
+  }
+  return render(request, "index.html", context)
