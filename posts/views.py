@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .models import Post
+
 def post_create(request):
   context = {
     'title': "Create"
@@ -17,6 +19,7 @@ def post_detail(request):
   return render(request, "index.html", context)
 
 def post_list(request):
+  queryset = Post.objects.all()
   # if request.user.is_authenticated():
   #   context = {
   #   'title': "Admin List"
@@ -26,7 +29,8 @@ def post_list(request):
   #     'title': "List"
   #   }
   context = {
-      'title': "List"
+      'title': "List",
+      'queryset': queryset
     }
   
   return render(request, "index.html", context)
