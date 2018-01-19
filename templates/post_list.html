@@ -19,10 +19,12 @@
     
 
 {% for obj in queryset %}
-<div class="row">
+<div class="row" style="text-align: center;">
   <div class="col-sm-12" >
     <div class="thumbnail" style="border: 1px solid grey; padding: 5px; margin: 10px; border-radius: 5px;">
-    <!--<img src="" alt=""> -->
+      {% if obj.image %}
+      <img src="{{ obj.image.url }}" class="img-thumbnail" alt="">
+      {% endif %}
       <div class="caption">
         <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{{ obj.timestamp|timesince }} ago</small></h3>
         <p>{{ obj.content|linebreaks|truncatechars:120 }}</p>
@@ -33,6 +35,23 @@
   <hr/>
 </div>        
 {% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if queryset.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ queryset.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+        </span>
+
+        {% if queryset.has_next %}
+            <a href="?page={{ queryset.next_page_number }}">next</a>
+            <a href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 </div>
 
 

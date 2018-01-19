@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+
 
 from .forms import PostForm
 from .models import Post
@@ -10,7 +12,7 @@ from .models import Post
 # POST CREATE ********************
 
 def post_create(request):
-  form = PostForm(request.POST or None)
+  form = PostForm(request.POST or None, request.FILES or None)
   if form.is_valid():
     instance = form.save(commit=False)
     instance.save()
@@ -30,7 +32,7 @@ def post_detail(request, id=None):
 
   context = {
     'title': instance.title,
-    'instance': instance
+    'instance': instance,
   }
   return render(request, "post_detail.html", context)
 
@@ -39,7 +41,16 @@ def post_detail(request, id=None):
 
 
 def post_list(request):
-  queryset = Post.objects.all()
+  queryset_list = Post.objects.all()
+  paginator = Paginator(queryset_list, 5) # Show 25 posts per page
+  page = request.GET.get('page')
+  try:
+    queryset = paginator.page(page)
+  except PageNotAnInteger:
+    queryset = paginator.page(1)
+  except EmptyPage:
+    queryset = paginator.page(paginator.num_pages)
+
   context = {
       'title': "List",
       'queryset': queryset
@@ -49,11 +60,13 @@ def post_list(request):
 
 
 
+
+
 # POST UPDATE ********************
 
 def post_update(request, id=None):
-  instance = get_object_or_404(Post, id=id)
-  form = PostForm(request.POST or None, instance=instance)
+  instance = get_object_or_404(Post, id=id, )
+  form = PostForm(request.POST or None,request.FILES or None,  instance=instance)
   if form.is_valid():
     instance = form.save(commit=False)
     instance.save()
